@@ -72,10 +72,54 @@ int binomial_coefficient(int n, int r){
 // █░░█░█ █▀▀ █▀█ █░░░░▀▄▀▄▀ █ ░█░ █▀█░░█ ░█░░█
 // █░░▀▀░ ▀▀▀ ▀░▀ ▀▀▀░░░▀░▀░ ▀ ░▀░ ▀░▀░░▀ ░▀░░█
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-
+int find_min(vi &input){
+    int minma = infinity;
+    int ans;
+    loop(i, 0, sz(input)){
+        if(input[i] < minma){
+            minma = input[i]; ans = i;
+        }
+    }
+    return ans;
+}
+int find_max(vi &input){
+    int minma = -infinity;
+    int ans;
+    loop(i, 0, sz(input)){
+        if(input[i] > minma){
+            minma = input[i]; ans = i;
+        }
+    }
+    return ans;
+}
 int32_t main(){
     FIO
+    int n, k; cin >> n >> k;
+    vi input;
+    loop(i, 0, n){
+        int temp; cin >> temp;
+        input.pb(temp);
+    }
+    // sort(all(input));
+    int moves = 0;
     
+    int min_index = find_min(input);
+    int max_index = find_max(input);
+    vector<pii> print_this_at_the_end;
+    while(moves < k){
+        min_index = find_min(input);
+        max_index = find_max(input);
+        if(input[max_index] - input[min_index] > 1){
+            print_this_at_the_end.push_back({max_index+1, min_index+1});
+            input[max_index]--; input[min_index]++;
+            moves++;
+        }
+        else break;
+    }
+    min_index = find_min(input);
+    max_index = find_max(input);
+    cout << input[max_index] - input[min_index] << space << moves << endl;
+    loop(i, 0, sz(print_this_at_the_end)) cout << print_this_at_the_end[i].first << space << print_this_at_the_end[i].second << endl;
     return 0;
 }
 
